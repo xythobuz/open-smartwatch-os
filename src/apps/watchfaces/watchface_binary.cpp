@@ -56,6 +56,15 @@ void OswAppWatchfaceBinary::drawWatch(OswHal* hal, Graphics2D* gfx2d) {
     }
   }
 
+  //values
+  for(uint8_t i = 0; i < 6; i++){
+    uint32_t b = pow(2, i);
+    hal->gfx()->setTextSize(1);
+    ui->resetTextColors();
+    hal->gfx()->setTextCursor(width - (((width - 32) / 8) * i + 64) - 32, height / 2 - 32);
+    hal->gfx()->print(b, DEC);
+  }
+
   //cosmetic
   hal->gfx()->drawLine(width /2 + 40, height / 8 * 1, width /2 + 40, height / 8 * 7, ui->getForegroundColor());
 

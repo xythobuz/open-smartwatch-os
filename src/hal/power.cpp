@@ -22,16 +22,21 @@ uint16_t OswHal::getBatteryRaw(void) {
 }
 
 uint8_t OswHal::getBatteryPercent(void) {
-  uint16_t b = 0;
+  static uint16_t b = 0;
+  static unsigned long lastBattTime = 0;
 
-  uint8_t n = 20;
-  // measure n times
-  for (uint8_t i = 0; i < n; i++) {
-    b = b + getBatteryRaw();
+  if ((lastBattTime == 0) || ((millis() - lastBattTime) > 1000)) {
+    lastBattTime = millis();
+
+    uint8_t n = 20;
+    // measure n times
+    for (uint8_t i = 0; i < n; i++) {
+      b = b + getBatteryRaw();
+    }
+    b = b / n;
+
+    b = b > 40 ? b / 2 : b;
   }
-  b = b / n;
-
-  b = b > 40 ? b / 2 : b;
 
   // magic values through a single experiment:
   if (b >= 31) {

@@ -52,16 +52,18 @@ void OswAppSwitcher::loop(OswHal* hal) {
     }
   }
 
+#if RESET_SCREEN_TIMEOUT_ON_BUTTON_PRESS == 1
+  if (hal->btnIsDown(BUTTON_1) || hal->btnIsDown(BUTTON_2) || hal->btnIsDown(BUTTON_3)) {
+    appOnScreenSince = millis();
+  }
+#endif // RESET_SCREEN_TIMEOUT_ON_BUTTON_PRESS
+
   if (_enableAutoSleep && *_rtcAppIndex == 0 && !hal->btnIsDown(_btn)) {
     short timeout = OswConfigAllKeys::settingDisplayTimeout.get();
-    if (*_rtcAppIndex == 0 && (millis() - appOnScreenSince) > timeout * 1000) {
-      if (hal->btnIsDown(BUTTON_1) || hal->btnIsDown(BUTTON_2) || hal->btnIsDown(BUTTON_3)) {
-        appOnScreenSince = millis();
-      } else if(timeout > 0) {
-        Serial.print("Going to sleep after ");
-        Serial.println(timeout);
-        sleep(hal, false);
-      }
+    if (timeout > 0 && (millis() - appOnScreenSince) > timeout * 1000) {
+      Serial.print("Going to sleep after ");
+      Serial.println(timeout);
+      sleep(hal, false);
     }
   }
 

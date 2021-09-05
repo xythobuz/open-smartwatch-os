@@ -86,8 +86,8 @@ void setup() {
   // Fire off the service manager
   OswServiceManager::getInstance().setup(hal);
 
-  watchFaceSwitcher->registerApp(new OswAppWatchface());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceDigital());
+  watchFaceSwitcher->registerApp(new OswAppWatchface());
   watchFaceSwitcher->registerApp(new OswAppWatchfaceBinary());
   mainAppSwitcher->registerApp(watchFaceSwitcher);
 

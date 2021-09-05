@@ -22,6 +22,7 @@
 #define BLE_DEVICE_NAME DEVICE_NAME
 
 #define DISPLAY_MIN_BRIGHTNESS 10
+#define RESET_SCREEN_TIMEOUT_ON_BUTTON_PRESS 0
 
 // The following settings are configureable later on using the web ui, you can still set the defaults here.
 
